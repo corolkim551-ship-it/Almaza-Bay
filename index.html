@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WINTER PROJECT</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f4f7fb;color:#172033}
+button,input,select{font:inherit}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#0b1730,#16345e)}
+.card{background:#fff;border-radius:22px;padding:36px;width:min(420px,92%);box-shadow:0 25px 70px #0004}.brand{font-size:28px;font-weight:800;color:#102a4d}.sub{color:#68768a;margin:8px 0 28px}.field{width:100%;padding:13px 14px;border:1px solid #d9e0ea;border-radius:10px;margin:7px 0 14px}button{border:0;border-radius:10px;padding:12px 18px;cursor:pointer}.primary{background:#123c68;color:#fff;font-weight:700;width:100%}.app{display:none;min-height:100vh}.side{position:fixed;left:0;top:0;bottom:0;width:245px;background:#0c1930;color:#fff;padding:24px 16px}.logo{font-weight:900;font-size:21px;margin-bottom:30px}.logo small{display:block;font-size:11px;color:#9fb1c9;margin-top:5px}.nav button{display:block;width:100%;text-align:left;background:transparent;color:#b9c7da;margin:4px 0}.nav button.active,.nav button:hover{background:#19385f;color:#fff}.main{margin-left:245px;padding:30px;max-width:1500px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.title{font-size:28px;font-weight:800}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.stat,.panel{background:#fff;border-radius:16px;padding:20px;box-shadow:0 5px 20px #16345e10}.stat b{font-size:30px}.muted{color:#718096;font-size:13px}.bar{height:9px;background:#e7edf5;border-radius:9px;overflow:hidden;margin-top:10px}.fill{height:100%;background:#1c72b8}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:13px;border-bottom:1px solid #edf1f5;text-align:left}.badge{padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700}.done{background:#dff5e7;color:#17733b}.progress{background:#fff1cc;color:#8a6100}.not{background:#edf0f4;color:#68768a}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.danger{background:#fff0f0;color:#a22}.hidden{display:none!important}@media(max-width:800px){.side{position:static;width:100%;height:auto}.main{margin-left:0;padding:18px}.app{display:none}.nav{display:flex;overflow:auto}.nav button{min-width:max-content}.top{align-items:flex-start;gap:10px;flex-direction:column}}
+</style>
+</head>
+<body>
+<div id="login" class="login"><div class="card">
+<div class="brand">WINTER PROJECT</div><div class="sub">Maintenance & Manufacturing</div>
+<label>Username</label><input id="user" class="field" value="admin">
+<label>Password</label><input id="pass" type="password" class="field" value="admin">
+<button class="primary" onclick="login()">Sign in</button><p id="err" class="muted"></p>
+</div></div>
+
+<div id="app" class="app">
+<aside class="side"><div class="logo">WINTER PROJECT<small>Maintenance & Manufacturing</small></div>
+<div class="nav">
+<button class="active" onclick="show('dashboard',this)">Dashboard</button>
+<button onclick="show('projects',this)">Projects</button>
+<button onclick="show('reports',this)">Percentages & Reports</button>
+<button onclick="show('hotels',this)">Hotels</button>
+</div></aside>
+<main class="main">
+<div class="top"><div><div class="title" id="pageTitle">Dashboard</div><div class="muted">JAZ Hotels — Bay Projects Workspace</div></div><button onclick="logout()">Logout</button></div>
+
+<section id="dashboard"><div class="grid" id="stats"></div><div class="panel" style="margin-top:18px"><h3>Hotel Progress</h3><div id="hotelProgress" class="grid"></div></div></section>
+
+<section id="projects" class="hidden"><div class="panel"><div class="actions"><button class="primary" style="width:auto" onclick="addProject()">+ Add Project</button><select id="hotelFilter" onchange="renderProjects()"></select></div><div style="overflow:auto"><table class="table"><thead><tr><th>Hotel</th><th>Project</th><th>Department</th><th>Status</th><th></th></tr></thead><tbody id="projectRows"></tbody></table></div></div></section>
+
+<section id="reports" class="hidden"><div class="panel"><h3>Completion Percentage</h3><div id="reportsGrid" class="grid"></div></div></section>
+
+<section id="hotels" class="hidden"><div class="grid" id="hotelCards"></div></section>
+</main></div>
+
+<script>
+const hotels=["Jaz Almaza Beach","Jaz Elite Crystal","Jaz Oriental","Jaz Tamerina","Jaz Neo Almazino","Jaz Viva Casa Maza","Jaz Viva Villagio","Jaz Viva Blu"];
+const depts=["FB","FO","HK","IT","Pest Control","Laundry","HR"];
+let projects=JSON.parse(localStorage.getItem("winterProjects")||"[]");
+if(!projects.length){projects=[
+["Jaz Almaza Beach","Sample maintenance project","IT","Completed"],
+["Jaz Elite Crystal","Sample project","FO","In Progress"],
+["Jaz Oriental","Sample project","HK","Not Started"]
+].map((x,i)=>({id:Date.now()+i,hotel:x[0],name:x[1],dept:x[2],status:x[3]}));save();}
+function save(){localStorage.setItem("winterProjects",JSON.stringify(projects))}
+function login(){if(user.value==="admin"&&pass.value==="admin"){loginEl();}else err.textContent="Demo login: admin / admin"}
+function loginEl(){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";renderAll()}
+function logout(){location.reload()}
+function show(id,btn){["dashboard","projects","reports","hotels"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");pageTitle.textContent=btn.textContent;renderAll()}
+function pct(h){let a=projects.filter(p=>p.hotel===h);return a.length?Math.round(a.filter(p=>p.status==="Completed").length/a.length*100):0}
+function renderAll(){stats.innerHTML=`<div class="stat"><div class="muted">Total Projects</div><b>${projects.length}</b></div><div class="stat"><div class="muted">Completed</div><b>${projects.filter(p=>p.status==="Completed").length}</b></div><div class="stat"><div class="muted">In Progress</div><b>${projects.filter(p=>p.status==="In Progress").length}</b></div><div class="stat"><div class="muted">Not Started</div><b>${projects.filter(p=>p.status==="Not Started").length}</b></div>`;
+hotelProgress.innerHTML=hotels.map(h=>`<div class="stat"><b style="font-size:18px">${h}</b><div class="muted">${pct(h)}% completed</div><div class="bar"><div class="fill" style="width:${pct(h)}%"></div></div></div>`).join("");
+hotelFilter.innerHTML='<option value="">All Hotels</option>'+hotels.map(h=>`<option>${h}</option>`).join("");
+renderProjects();
+reportsGrid.innerHTML=hotels.map(h=>`<div class="stat"><b style="font-size:18px">${h}</b><p><b>${pct(h)}%</b> completed</p><div class="bar"><div class="fill" style="width:${pct(h)}%"></div></div><p class="muted">${100-pct(h)}% remaining</p></div>`).join("")+`<div class="stat"><b>All Bay</b><p><b>${projects.length?Math.round(projects.filter(p=>p.status==="Completed").length/projects.length*100):0}%</b> completed</p><div class="bar"><div class="fill" style="width:${projects.length?Math.round(projects.filter(p=>p.status==="Completed").length/projects.length*100):0}%"></div></div></div>`;
+hotelCards.innerHTML=hotels.map(h=>`<div class="panel"><h3>${h}</h3><p class="muted">${projects.filter(p=>p.hotel===h).length} projects</p><button onclick="filterHotel('${h}')">Open Projects</button></div>`).join("");
+}
+function renderProjects(){let f=hotelFilter.value;let a=projects.filter(p=>!f||p.hotel===f);projectRows.innerHTML=a.map(p=>`<tr><td>${p.hotel}</td><td>${p.name}</td><td>${p.dept}</td><td><span class="badge ${p.status==="Completed"?"done":p.status==="In Progress"?"progress":"not"}">${p.status}</span></td><td><button class="danger" onclick="del(${p.id})">Delete</button></td></tr>`).join("")}
+function addProject(){let h=prompt("Hotel name:\\n"+hotels.join("\\n"));if(!hotels.includes(h))return alert("Please enter an exact hotel name.");let name=prompt("Project name:");if(!name)return;let d=prompt("Department (FB, FO, HK, IT, Pest Control, Laundry, HR):","IT");if(!depts.includes(d))return alert("Invalid department.");let s=prompt("Status: Completed / In Progress / Not Started","Not Started");if(!["Completed","In Progress","Not Started"].includes(s))return alert("Invalid status.");projects.push({id:Date.now(),hotel:h,name,dept:d,status:s});save();renderAll()}
+function del(id){projects=projects.filter(p=>p.id!==id);save();renderAll()}
+function filterHotel(h){show("projects",document.querySelectorAll(".nav button")[1]);hotelFilter.value=h;renderProjects()}
+</script>
+</body></html>
