@@ -1,97 +1,498 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Winter Project — Operations</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة متابعة المشاريع الشتوية</title>
+  <style>
+    :root {
+      --navy: #14283f;
+      --blue: #2878d0;
+      --green: #159570;
+      --orange: #e99a36;
+      --red: #d94f5c;
+      --bg: #f3f6fa;
+      --muted: #718096;
+      --border: #e5eaf0;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--navy);
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+    }
+
+    aside {
+      background: var(--navy);
+      color: white;
+      padding: 28px 18px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin: 0 10px 28px;
+    }
+
+    .side-label {
+      color: #aebed0;
+      font-size: 12px;
+      margin: 0 10px 10px;
+    }
+
+    .hotel-button {
+      width: 100%;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #eaf0f6;
+      text-align: right;
+      padding: 12px 13px;
+      margin: 3px 0;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .hotel-button:hover,
+    .hotel-button.active {
+      background: #29425e;
+      color: white;
+    }
+
+    main { padding: 30px; min-width: 0; }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    h1 { margin: 0 0 7px; font-size: 25px; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+
+    button { font: inherit; }
+
+    .primary-button {
+      border: 0;
+      border-radius: 9px;
+      background: var(--blue);
+      color: white;
+      padding: 12px 17px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .primary-button:hover { background: #1d67b8; }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card, .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      box-shadow: 0 3px 12px #1c35500a;
+    }
+
+    .card { padding: 18px; }
+    .card-label { color: var(--muted); font-size: 13px; }
+    .card-value { font-size: 28px; font-weight: 700; margin-top: 9px; }
+    .card-note { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .panel { overflow: hidden; }
+
+    .panel-heading {
+      padding: 17px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-heading h2 { font-size: 16px; margin: 0; }
+    .project-count { color: var(--muted); font-size: 13px; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 660px; }
+    th, td {
+      padding: 15px 18px;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    th { color: var(--muted); font-size: 12px; background: #fbfcfe; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .project-name { font-weight: 700; }
+
+    .status {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 6px 10px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .status-done { color: #087858; background: #e7f6f0; }
+    .status-ongoing { color: #a36307; background: #fff3df; }
+    .status-not-started { color: #637083; background: #eef1f5; }
+
+    .delete-button {
+      border: 1px solid #f1d5d8;
+      color: var(--red);
+      background: white;
+      border-radius: 7px;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+    .delete-button:hover { background: #fff1f2; }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 38px 15px;
+    }
+
+    dialog {
+      width: min(440px, calc(100% - 28px));
+      border: 0;
+      border-radius: 14px;
+      padding: 0;
+      box-shadow: 0 20px 60px #10243c40;
+    }
+    dialog::backdrop { background: #10243c80; }
+
+    .modal { padding: 22px; }
+    .modal h2 { margin: 0 0 18px; font-size: 19px; }
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    input, select {
+      width: 100%;
+      border: 1px solid #d9e0e8;
+      border-radius: 8px;
+      padding: 11px;
+      font: inherit;
+      background: white;
+      color: var(--navy);
+    }
+    input:focus, select:focus {
+      outline: 2px solid #b8d8fa;
+      border-color: var(--blue);
+    }
+    .modal-actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 20px;
+    }
+    .secondary-button {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--navy);
+      border-radius: 8px;
+      padding: 11px 15px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { padding: 18px; }
+      .brand { margin-bottom: 14px; }
+      .hotel-list {
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+      }
+      .hotel-button { width: auto; white-space: nowrap; }
+      main { padding: 20px 14px; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .topbar { flex-direction: column; }
+      .primary-button { width: 100%; }
+      h1 { font-size: 21px; }
+    }
+  </style>
 </head>
 <body>
-<div id="toast"></div>
+  <div class="layout">
+    <aside>
+      <div class="brand">متابعة المشاريع<br>Winter Projects</div>
+      <div class="side-label">الفنادق</div>
+      <nav id="hotelList" class="hotel-list"></nav>
+    </aside>
 
-<!-- LOGIN -->
-<section id="login" class="login">
-  <div class="login-photo"></div><div class="login-shade"></div>
-  <header class="login-header">
-    <div class="logo"><span>W</span><div><strong>WINTER PROJECT</strong><small>OPERATIONS MANAGEMENT</small></div></div>
-    <div class="secure"><i></i> SECURE ACCESS</div>
-  </header>
-  <div class="login-box">
-    <small class="kicker">WELCOME BACK</small>
-    <h1>Operations,<br><em>beautifully managed.</em></h1>
-    <p>Manage projects, property performance and operational delivery from one executive workspace.</p>
-    <form id="loginForm">
-      <div class="field"><label for="username">USERNAME</label><input id="username" autocomplete="username" placeholder="Enter username"></div>
-      <div class="field"><label for="password">PASSWORD</label><div class="password"><input id="password" type="password" autocomplete="current-password" placeholder="Enter password"><button id="showPass" type="button">SHOW</button></div></div>
-      <button class="gold-btn full" type="submit">SIGN IN <span>→</span></button>
-      <div id="loginError" class="form-error"></div>
-    </form>
-    <div class="demo-access">
-      <div><b>ADMIN</b><span>Full project control</span></div>
-      <div><b>OPERATOR</b><span>Add projects only</span></div>
-    </div>
-  </div>
-  <footer>ALMAZA BAY <i></i> PROPERTY OPERATIONS</footer>
-</section>
-
-<!-- SYSTEM PICKER -->
-<section id="picker" class="picker hidden">
-  <header class="picker-header">
-    <div class="logo"><span>W</span><div><strong>WINTER PROJECT</strong><small>OPERATIONS MANAGEMENT</small></div></div>
-    <button class="logout" onclick="logout()">Sign out</button>
-  </header>
-  <main class="picker-main">
-    <small class="kicker">WORKSPACE SELECTION</small><h1>Select an operating system</h1>
-    <p>Each workspace contains its own projects, progress and operational reporting.</p>
-    <div id="systems" class="systems"></div>
-  </main>
-</section>
-
-<!-- APP -->
-<section id="app" class="app hidden">
-  <aside class="sidebar">
-    <div class="logo side-logo"><span>W</span><div><strong>WINTER</strong><small>OPERATIONS</small></div></div>
-    <div class="workspace"><small>ACTIVE WORKSPACE</small><b id="workspaceName"></b><button onclick="backToPicker()">Switch workspace →</button></div>
-    <nav>
-      <button class="nav active" data-page="dashboard"><span>01</span>Dashboard</button>
-      <button class="nav" data-page="projects"><span>02</span>Projects <b id="projectCount">0</b></button>
-      <button class="nav" data-page="reports"><span>03</span>Reports</button>
-      <button class="nav" data-page="settings"><span>04</span>Settings</button>
-    </nav>
-    <div class="side-bottom"><small>PROPERTY OPERATIONS</small><b>Precision in every detail.</b></div>
-  </aside>
-  <main class="main">
-    <header class="topbar">
-      <div><small id="crumb">WINTER PROJECT</small><h2 id="pageTitle">Dashboard</h2></div>
-      <div class="top-right">
-        <div class="global-search">⌕<input id="globalSearch" placeholder="Search projects..."></div>
-        <div class="profile"><span id="avatar">AD</span><div><b id="userName"></b><small id="roleName"></small></div></div>
+    <main>
+      <div class="topbar">
+        <div>
+          <h1 id="pageTitle">كل الفنادق</h1>
+          <div class="subtitle">تابع حالة المشاريع والمواعيد المستهدفة</div>
+        </div>
+        <button class="primary-button" id="addButton">＋ إضافة مشروع</button>
       </div>
-    </header>
-    <div id="page"></div>
-  </main>
-</section>
 
-<!-- PROJECT MODAL -->
-<div id="modal" class="modal">
- <div class="modal-card">
-  <button class="close" onclick="closeModal()">×</button>
-  <div class="modal-head"><small id="modalKicker">PROJECT</small><h2 id="modalTitle">Add project</h2><p id="modalDesc">Create a project in this workspace.</p></div>
-  <form id="projectForm">
-   <div class="field"><label>PROJECT NAME</label><input id="fName" required placeholder="Project name"></div>
-   <div class="two">
-    <div class="field"><label>HOTEL</label><select id="fHotel"></select></div>
-    <div class="field"><label>DEPARTMENT</label><select id="fDept"></select></div>
-    <div class="field"><label>STATUS</label><select id="fStatus"><option>Not Started</option><option>On Going</option><option>Completed</option></select></div>
-    <div class="field"><label>PROGRESS</label><input id="fProgress" type="number" min="0" max="100" value="0"></div>
-    <div class="field"><label>DUE DATE</label><input id="fDate" type="date" required></div>
-    <div class="field"><label>PRIORITY</label><select id="fPriority"><option>High</option><option>Medium</option><option>Low</option></select></div>
-   </div>
-   <div class="modal-actions"><button type="button" class="ghost" onclick="closeModal()">Cancel</button><button class="gold-btn" type="submit">Save project →</button></div>
-  </form>
- </div>
-</div>
-<script src="app.js"></script>
+      <section class="kpis" aria-label="مؤشرات المشاريع">
+        <div class="card">
+          <div class="card-label">إجمالي المشاريع</div>
+          <div class="card-value" id="totalKpi">0</div>
+          <div class="card-note">مشروع</div>
+        </div>
+        <div class="card">
+          <div class="card-label">مكتملة · Done</div>
+          <div class="card-value" id="doneKpi">0%</div>
+          <div class="card-note" id="doneCount">0 مشروع</div>
+        </div>
+        <div class="card">
+          <div class="card-label">قيد التنفيذ · Ongoing</div>
+          <div class="card-value" id="ongoingKpi">0%</div>
+          <div class="card-note" id="ongoingCount">0 مشروع</div>
+        </div>
+        <div class="card">
+          <div class="card-label">لم تبدأ · Not Started</div>
+          <div class="card-value" id="notStartedKpi">0%</div>
+          <div class="card-note" id="notStartedCount">0 مشروع</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>قائمة المشاريع</h2>
+          <span class="project-count" id="projectCount">0 مشروع</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>اسم المشروع</th>
+                <th>الفندق</th>
+                <th>الحالة</th>
+                <th>التاريخ المستهدف</th>
+                <th>إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="projectRows"></tbody>
+          </table>
+          <div id="emptyState" class="empty" hidden>
+            لا توجد مشاريع هنا حتى الآن. اضغط «إضافة مشروع» للبدء.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="projectDialog">
+    <form class="modal" id="projectForm">
+      <h2>إضافة مشروع جديد</h2>
+
+      <div class="field">
+        <label for="projectName">اسم المشروع</label>
+        <input id="projectName" required maxlength="100" placeholder="مثال: تطوير منطقة الاستقبال" />
+      </div>
+
+      <div class="field">
+        <label for="projectHotel">الفندق</label>
+        <select id="projectHotel" required></select>
+      </div>
+
+      <div class="field">
+        <label for="projectStatus">الحالة</label>
+        <select id="projectStatus">
+          <option value="Not Started">Not Started</option>
+          <option value="Ongoing">Ongoing</option>
+          <option value="Done">Done</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="targetDate">التاريخ المستهدف</label>
+        <input id="targetDate" type="date" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="primary-button" type="submit">حفظ المشروع</button>
+        <button class="secondary-button" type="button" id="cancelButton">إلغاء</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const hotels = [
+      "Jaz Almaza Beach",
+      "Jaz Elite Crystal",
+      "Jaz Oriental",
+      "Jaz Almazino",
+      "Jaz Viva Casa Maza",
+      "Jaz Viva Villagio",
+      "Jaz Viva Blu"
+    ];
+
+    const statusLabels = {
+      "Done": "Done",
+      "Ongoing": "Ongoing",
+      "Not Started": "Not Started"
+    };
+
+    const statusClasses = {
+      "Done": "status-done",
+      "Ongoing": "status-ongoing",
+      "Not Started": "status-not-started"
+    };
+
+    let projects = JSON.parse(localStorage.getItem("winterProjects") || "[]");
+    let selectedHotel = "all";
+
+    const hotelList = document.getElementById("hotelList");
+    const projectHotel = document.getElementById("projectHotel");
+    const dialog = document.getElementById("projectDialog");
+    const form = document.getElementById("projectForm");
+
+    function saveProjects() {
+      localStorage.setItem("winterProjects", JSON.stringify(projects));
+    }
+
+    function renderHotels() {
+      hotelList.innerHTML = "";
+
+      const choices = [{ id: "all", name: "كل الفنادق" },
+        ...hotels.map(name => ({ id: name, name }))];
+
+      choices.forEach(hotel => {
+        const button = document.createElement("button");
+        button.className = "hotel-button" +
+          (selectedHotel === hotel.id ? " active" : "");
+        button.textContent = hotel.name;
+        button.addEventListener("click", () => {
+          selectedHotel = hotel.id;
+          render();
+        });
+        hotelList.appendChild(button);
+      });
+
+      projectHotel.innerHTML = hotels.map(name =>
+        `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`
+      ).join("");
+    }
+
+    function getVisibleProjects() {
+      return selectedHotel === "all"
+        ? projects
+        : projects.filter(project => project.hotel === selectedHotel);
+    }
+
+    function render() {
+      renderHotels();
+
+      const visible = getVisibleProjects();
+      const title = selectedHotel === "all" ? "كل الفنادق" : selectedHotel;
+      document.getElementById("pageTitle").textContent = title;
+      document.getElementById("projectCount").textContent =
+        `${visible.length} ${visible.length === 1 ? "مشروع" : "مشاريع"}`;
+
+      const total = visible.length;
+      const count = status => visible.filter(p => p.status === status).length;
+      const percent = status => total ? Math.round(count(status) / total * 100) : 0;
+
+      document.getElementById("totalKpi").textContent = total;
+      document.getElementById("doneKpi").textContent = percent("Done") + "%";
+      document.getElementById("ongoingKpi").textContent = percent("Ongoing") + "%";
+      document.getElementById("notStartedKpi").textContent = percent("Not Started") + "%";
+      document.getElementById("doneCount").textContent = count("Done") + " مشروع";
+      document.getElementById("ongoingCount").textContent = count("Ongoing") + " مشروع";
+      document.getElementById("notStartedCount").textContent = count("Not Started") + " مشروع";
+
+      const rows = document.getElementById("projectRows");
+      const emptyState = document.getElementById("emptyState");
+      rows.innerHTML = "";
+      emptyState.hidden = visible.length !== 0;
+
+      visible.forEach(project => {
+        const row = document.createElement("tr");
+        const date = project.targetDate
+          ? new Date(project.targetDate + "T00:00:00").toLocaleDateString("ar-EG")
+          : "—";
+
+        row.innerHTML = `
+          <td class="project-name">${escapeHtml(project.name)}</td>
+          <td>${escapeHtml(project.hotel)}</td>
+          <td><span class="status ${statusClasses[project.status]}">${statusLabels[project.status]}</span></td>
+          <td>${date}</td>
+          <td><button class="delete-button" data-id="${project.id}">حذف</button></td>
+        `;
+
+        row.querySelector(".delete-button").addEventListener("click", () => {
+          if (confirm(`هل أنت متأكد من حذف المشروع «${project.name}»؟`)) {
+            projects = projects.filter(item => item.id !== project.id);
+            saveProjects();
+            render();
+          }
+        });
+
+        rows.appendChild(row);
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[character]);
+    }
+
+    document.getElementById("addButton").addEventListener("click", () => {
+      if (selectedHotel !== "all") projectHotel.value = selectedHotel;
+      form.reset();
+      if (selectedHotel !== "all") projectHotel.value = selectedHotel;
+      dialog.showModal();
+    });
+
+    document.getElementById("cancelButton").addEventListener("click", () => {
+      dialog.close();
+    });
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      projects.push({
+        id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+        name: document.getElementById("projectName").value.trim(),
+        hotel: projectHotel.value,
+        status: document.getElementById("projectStatus").value,
+        targetDate: document.getElementById("targetDate").value
+      });
+
+      saveProjects();
+      dialog.close();
+      form.reset();
+      render();
+    });
+
+    render();
+  </script>
 </body>
 </html>
