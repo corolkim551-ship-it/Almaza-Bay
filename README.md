@@ -3,7 +3,7 @@
 A redesigned executive operations UI for Winter Project.
 
 ### Demo credentials
-- Admin: `admin` / `admin00` — add, edit and delete projects.
+- Admin: `Admin` / `admin00` — add, edit and delete projects.
 - Operator: `operator` / `operator00` — add projects only.
 
 ### Workspaces
