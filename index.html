@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة متابعة المشاريع الشتوية</title>
+  <title>Winter Projects | متابعة المشاريع</title>
+
   <style>
     :root {
-      --navy: #14283f;
-      --blue: #2878d0;
-      --green: #159570;
-      --orange: #e99a36;
-      --red: #d94f5c;
-      --bg: #f3f6fa;
-      --muted: #718096;
-      --border: #e5eaf0;
-      --white: #fff;
+      --navy: #20354a;
+      --blue: #3978a8;
+      --green: #38866f;
+      --orange: #d79443;
+      --red: #c95c5c;
+      --bg: #f5f3ef;
+      --muted: #77838d;
+      --border: #e8e4dc;
+      --white: #fffefa;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -26,14 +29,20 @@
       font-family: Arial, Tahoma, sans-serif;
     }
 
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
     .layout {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 270px 1fr;
     }
 
     aside {
-      background: var(--navy);
+      background: linear-gradient(180deg, #20354a, #29465c);
       color: white;
       padding: 28px 18px;
     }
@@ -41,12 +50,12 @@
     .brand {
       font-size: 20px;
       font-weight: 700;
-      line-height: 1.5;
+      line-height: 1.6;
       margin: 0 10px 28px;
     }
 
     .side-label {
-      color: #aebed0;
+      color: #bdcbd7;
       font-size: 12px;
       margin: 0 10px 10px;
     }
@@ -62,15 +71,19 @@
       margin: 3px 0;
       cursor: pointer;
       font-size: 14px;
+      transition: background 0.2s;
     }
 
     .hotel-button:hover,
     .hotel-button.active {
-      background: #29425e;
+      background: #3a5872;
       color: white;
     }
 
-    main { padding: 30px; min-width: 0; }
+    main {
+      padding: 30px;
+      min-width: 0;
+    }
 
     .topbar {
       display: flex;
@@ -80,10 +93,15 @@
       margin-bottom: 24px;
     }
 
-    h1 { margin: 0 0 7px; font-size: 25px; }
-    .subtitle { color: var(--muted); font-size: 14px; }
+    h1 {
+      margin: 0 0 7px;
+      font-size: 25px;
+    }
 
-    button { font: inherit; }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
 
     .primary-button {
       border: 0;
@@ -94,9 +112,12 @@
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      transition: background 0.2s;
     }
 
-    .primary-button:hover { background: #1d67b8; }
+    .primary-button:hover {
+      background: #2f678f;
+    }
 
     .kpis {
       display: grid;
@@ -105,19 +126,38 @@
       margin-bottom: 20px;
     }
 
-    .card, .panel {
+    .card,
+    .panel {
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: 13px;
-      box-shadow: 0 3px 12px #1c35500a;
+      box-shadow: 0 5px 18px #20354a0c;
     }
 
-    .card { padding: 18px; }
-    .card-label { color: var(--muted); font-size: 13px; }
-    .card-value { font-size: 28px; font-weight: 700; margin-top: 9px; }
-    .card-note { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .card {
+      padding: 18px;
+    }
 
-    .panel { overflow: hidden; }
+    .card-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card-value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 9px;
+    }
+
+    .card-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
 
     .panel-heading {
       padding: 17px 20px;
@@ -128,21 +168,51 @@
       gap: 12px;
     }
 
-    .panel-heading h2 { font-size: 16px; margin: 0; }
-    .project-count { color: var(--muted); font-size: 13px; }
+    .panel-heading h2 {
+      font-size: 16px;
+      margin: 0;
+    }
 
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 660px; }
-    th, td {
+    .project-count {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th,
+    td {
       padding: 15px 18px;
       text-align: right;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
 
-    th { color: var(--muted); font-size: 12px; background: #fbfcfe; }
-    tbody tr:last-child td { border-bottom: 0; }
-    .project-name { font-weight: 700; }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      background: #fbfaf7;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: #fcfbf8;
+    }
+
+    .project-name {
+      font-weight: 700;
+    }
 
     .status {
       display: inline-block;
@@ -151,19 +221,50 @@
       font-size: 12px;
       white-space: nowrap;
     }
-    .status-done { color: #087858; background: #e7f6f0; }
-    .status-ongoing { color: #a36307; background: #fff3df; }
-    .status-not-started { color: #637083; background: #eef1f5; }
+
+    .status-done {
+      color: #087858;
+      background: #e7f6f0;
+    }
+
+    .status-ongoing {
+      color: #a36307;
+      background: #fff3df;
+    }
+
+    .status-not-started {
+      color: #637083;
+      background: #eef1f5;
+    }
+
+    .edit-button,
+    .delete-button {
+      border-radius: 7px;
+      padding: 7px 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .edit-button {
+      border: 1px solid #d9e5ed;
+      color: var(--blue);
+      background: #f3f8fb;
+      margin-left: 5px;
+    }
+
+    .edit-button:hover {
+      background: #e6f1f7;
+    }
 
     .delete-button {
       border: 1px solid #f1d5d8;
       color: var(--red);
       background: white;
-      border-radius: 7px;
-      padding: 7px 10px;
-      cursor: pointer;
     }
-    .delete-button:hover { background: #fff1f2; }
+
+    .delete-button:hover {
+      background: #fff1f2;
+    }
 
     .empty {
       text-align: center;
@@ -178,35 +279,53 @@
       padding: 0;
       box-shadow: 0 20px 60px #10243c40;
     }
-    dialog::backdrop { background: #10243c80; }
 
-    .modal { padding: 22px; }
-    .modal h2 { margin: 0 0 18px; font-size: 19px; }
-    .field { margin-bottom: 14px; }
+    dialog::backdrop {
+      background: #10243c80;
+    }
+
+    .modal {
+      padding: 22px;
+    }
+
+    .modal h2 {
+      margin: 0 0 18px;
+      font-size: 19px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
     .field label {
       display: block;
       margin-bottom: 7px;
       font-size: 13px;
       font-weight: 700;
     }
-    input, select {
+
+    input,
+    select {
       width: 100%;
       border: 1px solid #d9e0e8;
       border-radius: 8px;
       padding: 11px;
-      font: inherit;
       background: white;
       color: var(--navy);
     }
-    input:focus, select:focus {
+
+    input:focus,
+    select:focus {
       outline: 2px solid #b8d8fa;
       border-color: var(--blue);
     }
+
     .modal-actions {
       display: flex;
       gap: 9px;
       margin-top: 20px;
     }
+
     .secondary-button {
       border: 1px solid var(--border);
       background: white;
@@ -217,30 +336,62 @@
     }
 
     @media (max-width: 850px) {
-      .layout { grid-template-columns: 1fr; }
-      aside { padding: 18px; }
-      .brand { margin-bottom: 14px; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        padding: 18px;
+      }
+
+      .brand {
+        margin-bottom: 14px;
+      }
+
       .hotel-list {
         display: flex;
         overflow-x: auto;
         gap: 5px;
       }
-      .hotel-button { width: auto; white-space: nowrap; }
-      main { padding: 20px 14px; }
-      .kpis { grid-template-columns: repeat(2, 1fr); }
+
+      .hotel-button {
+        width: auto;
+        white-space: nowrap;
+      }
+
+      main {
+        padding: 20px 14px;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 480px) {
-      .topbar { flex-direction: column; }
-      .primary-button { width: 100%; }
-      h1 { font-size: 21px; }
+      .topbar {
+        flex-direction: column;
+      }
+
+      .primary-button {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="layout">
     <aside>
-      <div class="brand">متابعة المشاريع<br>Winter Projects</div>
+      <div class="brand">
+        متابعة المشاريع<br />
+        Winter Projects
+      </div>
+
       <div class="side-label">الفنادق</div>
       <nav id="hotelList" class="hotel-list"></nav>
     </aside>
@@ -251,6 +402,7 @@
           <h1 id="pageTitle">كل الفنادق</h1>
           <div class="subtitle">تابع حالة المشاريع والمواعيد المستهدفة</div>
         </div>
+
         <button class="primary-button" id="addButton">＋ إضافة مشروع</button>
       </div>
 
@@ -260,16 +412,19 @@
           <div class="card-value" id="totalKpi">0</div>
           <div class="card-note">مشروع</div>
         </div>
+
         <div class="card">
           <div class="card-label">مكتملة · Done</div>
           <div class="card-value" id="doneKpi">0%</div>
           <div class="card-note" id="doneCount">0 مشروع</div>
         </div>
+
         <div class="card">
           <div class="card-label">قيد التنفيذ · Ongoing</div>
           <div class="card-value" id="ongoingKpi">0%</div>
           <div class="card-note" id="ongoingCount">0 مشروع</div>
         </div>
+
         <div class="card">
           <div class="card-label">لم تبدأ · Not Started</div>
           <div class="card-value" id="notStartedKpi">0%</div>
@@ -282,6 +437,7 @@
           <h2>قائمة المشاريع</h2>
           <span class="project-count" id="projectCount">0 مشروع</span>
         </div>
+
         <div class="table-wrap">
           <table>
             <thead>
@@ -290,11 +446,12 @@
                 <th>الفندق</th>
                 <th>الحالة</th>
                 <th>التاريخ المستهدف</th>
-                <th>إجراء</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody id="projectRows"></tbody>
           </table>
+
           <div id="emptyState" class="empty" hidden>
             لا توجد مشاريع هنا حتى الآن. اضغط «إضافة مشروع» للبدء.
           </div>
@@ -305,11 +462,16 @@
 
   <dialog id="projectDialog">
     <form class="modal" id="projectForm">
-      <h2>إضافة مشروع جديد</h2>
+      <h2 id="dialogTitle">إضافة مشروع جديد</h2>
 
       <div class="field">
         <label for="projectName">اسم المشروع</label>
-        <input id="projectName" required maxlength="100" placeholder="مثال: تطوير منطقة الاستقبال" />
+        <input
+          id="projectName"
+          required
+          maxlength="100"
+          placeholder="مثال: تطوير منطقة الاستقبال"
+        />
       </div>
 
       <div class="field">
@@ -332,8 +494,12 @@
       </div>
 
       <div class="modal-actions">
-        <button class="primary-button" type="submit">حفظ المشروع</button>
-        <button class="secondary-button" type="button" id="cancelButton">إلغاء</button>
+        <button class="primary-button" type="submit" id="saveProjectButton">
+          حفظ المشروع
+        </button>
+        <button class="secondary-button" type="button" id="cancelButton">
+          إلغاء
+        </button>
       </div>
     </form>
   </dialog>
@@ -346,7 +512,8 @@
       "Jaz Almazino",
       "Jaz Viva Casa Maza",
       "Jaz Viva Villagio",
-      "Jaz Viva Blu"
+      "Jaz Viva Blu",
+      "Jaz tamerina & Sakhra Hotel And Spa"
     ];
 
     const statusLabels = {
@@ -363,6 +530,7 @@
 
     let projects = JSON.parse(localStorage.getItem("winterProjects") || "[]");
     let selectedHotel = "all";
+    let editingProjectId = null;
 
     const hotelList = document.getElementById("hotelList");
     const projectHotel = document.getElementById("projectHotel");
@@ -371,87 +539,6 @@
 
     function saveProjects() {
       localStorage.setItem("winterProjects", JSON.stringify(projects));
-    }
-
-    function renderHotels() {
-      hotelList.innerHTML = "";
-
-      const choices = [{ id: "all", name: "كل الفنادق" },
-        ...hotels.map(name => ({ id: name, name }))];
-
-      choices.forEach(hotel => {
-        const button = document.createElement("button");
-        button.className = "hotel-button" +
-          (selectedHotel === hotel.id ? " active" : "");
-        button.textContent = hotel.name;
-        button.addEventListener("click", () => {
-          selectedHotel = hotel.id;
-          render();
-        });
-        hotelList.appendChild(button);
-      });
-
-      projectHotel.innerHTML = hotels.map(name =>
-        `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`
-      ).join("");
-    }
-
-    function getVisibleProjects() {
-      return selectedHotel === "all"
-        ? projects
-        : projects.filter(project => project.hotel === selectedHotel);
-    }
-
-    function render() {
-      renderHotels();
-
-      const visible = getVisibleProjects();
-      const title = selectedHotel === "all" ? "كل الفنادق" : selectedHotel;
-      document.getElementById("pageTitle").textContent = title;
-      document.getElementById("projectCount").textContent =
-        `${visible.length} ${visible.length === 1 ? "مشروع" : "مشاريع"}`;
-
-      const total = visible.length;
-      const count = status => visible.filter(p => p.status === status).length;
-      const percent = status => total ? Math.round(count(status) / total * 100) : 0;
-
-      document.getElementById("totalKpi").textContent = total;
-      document.getElementById("doneKpi").textContent = percent("Done") + "%";
-      document.getElementById("ongoingKpi").textContent = percent("Ongoing") + "%";
-      document.getElementById("notStartedKpi").textContent = percent("Not Started") + "%";
-      document.getElementById("doneCount").textContent = count("Done") + " مشروع";
-      document.getElementById("ongoingCount").textContent = count("Ongoing") + " مشروع";
-      document.getElementById("notStartedCount").textContent = count("Not Started") + " مشروع";
-
-      const rows = document.getElementById("projectRows");
-      const emptyState = document.getElementById("emptyState");
-      rows.innerHTML = "";
-      emptyState.hidden = visible.length !== 0;
-
-      visible.forEach(project => {
-        const row = document.createElement("tr");
-        const date = project.targetDate
-          ? new Date(project.targetDate + "T00:00:00").toLocaleDateString("ar-EG")
-          : "—";
-
-        row.innerHTML = `
-          <td class="project-name">${escapeHtml(project.name)}</td>
-          <td>${escapeHtml(project.hotel)}</td>
-          <td><span class="status ${statusClasses[project.status]}">${statusLabels[project.status]}</span></td>
-          <td>${date}</td>
-          <td><button class="delete-button" data-id="${project.id}">حذف</button></td>
-        `;
-
-        row.querySelector(".delete-button").addEventListener("click", () => {
-          if (confirm(`هل أنت متأكد من حذف المشروع «${project.name}»؟`)) {
-            projects = projects.filter(item => item.id !== project.id);
-            saveProjects();
-            render();
-          }
-        });
-
-        rows.appendChild(row);
-      });
     }
 
     function escapeHtml(value) {
@@ -464,10 +551,150 @@
       })[character]);
     }
 
+    function renderHotels() {
+      hotelList.innerHTML = "";
+
+      const choices = [
+        { id: "all", name: "كل الفنادق" },
+        ...hotels.map(name => ({ id: name, name }))
+      ];
+
+      choices.forEach(hotel => {
+        const button = document.createElement("button");
+
+        button.className =
+          "hotel-button" + (selectedHotel === hotel.id ? " active" : "");
+
+        button.textContent = hotel.name;
+
+        button.addEventListener("click", () => {
+          selectedHotel = hotel.id;
+          render();
+        });
+
+        hotelList.appendChild(button);
+      });
+
+      projectHotel.innerHTML = hotels.map(name =>
+        `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`
+      ).join("");
+    }
+
+    function getVisibleProjects() {
+      if (selectedHotel === "all") {
+        return projects;
+      }
+
+      return projects.filter(project => project.hotel === selectedHotel);
+    }
+
+    function render() {
+      renderHotels();
+
+      const visibleProjects = getVisibleProjects();
+      const title = selectedHotel === "all" ? "كل الفنادق" : selectedHotel;
+
+      document.getElementById("pageTitle").textContent = title;
+      document.getElementById("projectCount").textContent =
+        `${visibleProjects.length} مشروع`;
+
+      const total = visibleProjects.length;
+
+      const countByStatus = status =>
+        visibleProjects.filter(project => project.status === status).length;
+
+      const percentage = status =>
+        total ? Math.round((countByStatus(status) / total) * 100) : 0;
+
+      document.getElementById("totalKpi").textContent = total;
+
+      document.getElementById("doneKpi").textContent =
+        percentage("Done") + "%";
+      document.getElementById("ongoingKpi").textContent =
+        percentage("Ongoing") + "%";
+      document.getElementById("notStartedKpi").textContent =
+        percentage("Not Started") + "%";
+
+      document.getElementById("doneCount").textContent =
+        countByStatus("Done") + " مشروع";
+      document.getElementById("ongoingCount").textContent =
+        countByStatus("Ongoing") + " مشروع";
+      document.getElementById("notStartedCount").textContent =
+        countByStatus("Not Started") + " مشروع";
+
+      const rows = document.getElementById("projectRows");
+      const emptyState = document.getElementById("emptyState");
+
+      rows.innerHTML = "";
+      emptyState.hidden = visibleProjects.length !== 0;
+
+      visibleProjects.forEach(project => {
+        const row = document.createElement("tr");
+
+        const formattedDate = project.targetDate
+          ? new Date(project.targetDate + "T00:00:00").toLocaleDateString("ar-EG")
+          : "—";
+
+        row.innerHTML = `
+          <td class="project-name">${escapeHtml(project.name)}</td>
+          <td>${escapeHtml(project.hotel)}</td>
+          <td>
+            <span class="status ${statusClasses[project.status]}">
+              ${statusLabels[project.status]}
+            </span>
+          </td>
+          <td>${formattedDate}</td>
+          <td>
+            <button class="edit-button" type="button">تعديل</button>
+            <button class="delete-button" type="button">حذف</button>
+          </td>
+        `;
+
+        row.querySelector(".edit-button").addEventListener("click", () => {
+          editingProjectId = project.id;
+
+          document.getElementById("dialogTitle").textContent = "تعديل المشروع";
+          document.getElementById("saveProjectButton").textContent =
+            "حفظ التعديلات";
+
+          document.getElementById("projectName").value = project.name;
+          document.getElementById("projectHotel").value = project.hotel;
+          document.getElementById("projectStatus").value = project.status;
+          document.getElementById("targetDate").value =
+            project.targetDate || "";
+
+          dialog.showModal();
+        });
+
+        row.querySelector(".delete-button").addEventListener("click", () => {
+          const confirmed = confirm(
+            `هل أنت متأكد من حذف المشروع «${project.name}»؟`
+          );
+
+          if (confirmed) {
+            projects = projects.filter(item => item.id !== project.id);
+            saveProjects();
+            render();
+          }
+        });
+
+        rows.appendChild(row);
+      });
+    }
+
     document.getElementById("addButton").addEventListener("click", () => {
-      if (selectedHotel !== "all") projectHotel.value = selectedHotel;
+      editingProjectId = null;
       form.reset();
-      if (selectedHotel !== "all") projectHotel.value = selectedHotel;
+
+      document.getElementById("dialogTitle").textContent =
+        "إضافة مشروع جديد";
+      document.getElementById("saveProjectButton").textContent =
+        "حفظ المشروع";
+
+      if (selectedHotel !== "all") {
+        projectHotel.value = selectedHotel;
+      }
+
       dialog.showModal();
     });
 
@@ -478,17 +705,32 @@
     form.addEventListener("submit", event => {
       event.preventDefault();
 
-      projects.push({
-        id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+      const projectData = {
         name: document.getElementById("projectName").value.trim(),
         hotel: projectHotel.value,
         status: document.getElementById("projectStatus").value,
         targetDate: document.getElementById("targetDate").value
-      });
+      };
+
+      if (editingProjectId) {
+        projects = projects.map(project =>
+          project.id === editingProjectId
+            ? { ...project, ...projectData }
+            : project
+        );
+      } else {
+        projects.push({
+          id: crypto.randomUUID
+            ? crypto.randomUUID()
+            : String(Date.now()),
+          ...projectData
+        });
+      }
 
       saveProjects();
       dialog.close();
       form.reset();
+      editingProjectId = null;
       render();
     });
 
