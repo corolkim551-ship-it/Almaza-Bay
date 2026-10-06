@@ -7,15 +7,18 @@
 
   <style>
     :root {
-      --navy: #20354a;
-      --blue: #3978a8;
-      --green: #38866f;
-      --orange: #d79443;
-      --red: #c95c5c;
-      --bg: #f5f3ef;
-      --muted: #77838d;
-      --border: #e8e4dc;
-      --white: #fffefa;
+      --page-bg: #081a28;
+      --navy: #102638;
+      --navy-light: #19384d;
+      --blue: #55a9c7;
+      --text: #f3f7f8;
+      --muted: #adc0ca;
+      --border: #345062;
+      --green-dark: #116143;
+      --green-light: #baffd9;
+      --yellow: #f3c84f;
+      --white-status: #f4f7f8;
+      --red: #e36b6b;
     }
 
     * {
@@ -23,66 +26,80 @@
     }
 
     body {
+      min-height: 100vh;
       margin: 0;
-      background: var(--bg);
-      color: var(--navy);
+      color: var(--text);
+      background: var(--page-bg);
       font-family: Arial, Tahoma, sans-serif;
     }
 
-    button,
-    input,
-    select {
-      font: inherit;
+    /* رسمة بسيطة للفندق والبحر في خلفية الصفحة */
+    .scenery {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     .layout {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       display: grid;
       grid-template-columns: 270px 1fr;
     }
 
     aside {
-      background: linear-gradient(180deg, #20354a, #29465c);
-      color: white;
       padding: 28px 18px;
+      color: white;
+      background: rgba(8, 25, 39, 0.93);
+      border-left: 1px solid #345062;
+      backdrop-filter: blur(8px);
     }
 
     .brand {
+      margin: 0 10px 28px;
       font-size: 20px;
       font-weight: 700;
       line-height: 1.6;
-      margin: 0 10px 28px;
     }
 
     .side-label {
-      color: #bdcbd7;
-      font-size: 12px;
       margin: 0 10px 10px;
+      color: #9fb5c2;
+      font-size: 12px;
+    }
+
+    .hotel-list {
+      display: flex;
+      flex-direction: column;
     }
 
     .hotel-button {
       width: 100%;
+      margin: 3px 0;
+      padding: 12px 13px;
       border: 0;
       border-radius: 9px;
       background: transparent;
       color: #eaf0f6;
       text-align: right;
-      padding: 12px 13px;
-      margin: 3px 0;
-      cursor: pointer;
       font-size: 14px;
+      cursor: pointer;
       transition: background 0.2s;
     }
 
     .hotel-button:hover,
     .hotel-button.active {
-      background: #3a5872;
+      background: #24485e;
       color: white;
     }
 
     main {
-      padding: 30px;
       min-width: 0;
+      padding: 30px;
     }
 
     .topbar {
@@ -103,15 +120,21 @@
       font-size: 14px;
     }
 
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
     .primary-button {
+      padding: 12px 17px;
       border: 0;
       border-radius: 9px;
-      background: var(--blue);
+      background: #3978a8;
       color: white;
-      padding: 12px 17px;
       font-weight: 700;
-      cursor: pointer;
       white-space: nowrap;
+      cursor: pointer;
       transition: background 0.2s;
     }
 
@@ -128,10 +151,11 @@
 
     .card,
     .panel {
-      background: var(--white);
       border: 1px solid var(--border);
       border-radius: 13px;
-      box-shadow: 0 5px 18px #20354a0c;
+      background: rgba(19, 43, 60, 0.94);
+      box-shadow: 0 8px 25px #00000026;
+      backdrop-filter: blur(5px);
     }
 
     .card {
@@ -144,15 +168,16 @@
     }
 
     .card-value {
+      margin-top: 9px;
+      color: var(--text);
       font-size: 28px;
       font-weight: 700;
-      margin-top: 9px;
     }
 
     .card-note {
+      margin-top: 4px;
       color: var(--muted);
       font-size: 12px;
-      margin-top: 4px;
     }
 
     .panel {
@@ -160,17 +185,17 @@
     }
 
     .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       padding: 17px 20px;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
     }
 
     .panel-heading h2 {
-      font-size: 16px;
       margin: 0;
+      font-size: 16px;
     }
 
     .project-count {
@@ -184,22 +209,22 @@
 
     table {
       width: 100%;
-      border-collapse: collapse;
       min-width: 700px;
+      border-collapse: collapse;
     }
 
     th,
     td {
       padding: 15px 18px;
+      border-bottom: 1px solid #2c4658;
       text-align: right;
-      border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
 
     th {
-      color: var(--muted);
+      background: #142d40;
+      color: #b7c8d1;
       font-size: 12px;
-      background: #fbfaf7;
     }
 
     tbody tr:last-child td {
@@ -207,7 +232,7 @@
     }
 
     tbody tr:hover {
-      background: #fcfbf8;
+      background: #1d3a4e;
     }
 
     .project-name {
@@ -216,72 +241,82 @@
 
     .status {
       display: inline-block;
-      border-radius: 20px;
       padding: 6px 10px;
+      border-radius: 8px;
       font-size: 12px;
+      font-weight: 700;
       white-space: nowrap;
     }
 
+    /* مكتملة: كتابة خضراء فاتحة على مربع أخضر غامق */
     .status-done {
-      color: #087858;
-      background: #e7f6f0;
+      border: 1px solid #28a96e;
+      background: var(--green-dark);
+      color: var(--green-light);
     }
 
+    /* قيد التنفيذ: أصفر */
     .status-ongoing {
-      color: #a36307;
-      background: #fff3df;
+      border: 1px solid #ffd96a;
+      background: var(--yellow);
+      color: #3f2d05;
     }
 
+    /* لم تبدأ: أبيض */
     .status-not-started {
-      color: #637083;
-      background: #eef1f5;
+      border: 1px solid #d5e0e5;
+      background: var(--white-status);
+      color: #344654;
     }
 
     .edit-button,
     .delete-button {
-      border-radius: 7px;
       padding: 7px 10px;
+      border-radius: 7px;
       cursor: pointer;
       transition: background 0.2s;
     }
 
     .edit-button {
-      border: 1px solid #d9e5ed;
-      color: var(--blue);
-      background: #f3f8fb;
       margin-left: 5px;
+      border: 1px solid #34596c;
+      background: #17384a;
+      color: #8dd5ed;
     }
 
     .edit-button:hover {
-      background: #e6f1f7;
+      background: #204a61;
     }
 
     .delete-button {
-      border: 1px solid #f1d5d8;
-      color: var(--red);
-      background: white;
+      border: 1px solid #69424a;
+      background: #36292e;
+      color: #ffaaaa;
     }
 
     .delete-button:hover {
-      background: #fff1f2;
+      background: #503138;
     }
 
     .empty {
-      text-align: center;
-      color: var(--muted);
       padding: 38px 15px;
+      color: var(--muted);
+      text-align: center;
     }
 
     dialog {
       width: min(440px, calc(100% - 28px));
-      border: 0;
-      border-radius: 14px;
       padding: 0;
-      box-shadow: 0 20px 60px #10243c40;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #132b3c;
+      color: var(--text);
+      box-shadow: 0 20px 60px #00000070;
     }
 
     dialog::backdrop {
-      background: #10243c80;
+      background: #06131dcc;
+      backdrop-filter: blur(3px);
     }
 
     .modal {
@@ -307,17 +342,22 @@
     input,
     select {
       width: 100%;
-      border: 1px solid #d9e0e8;
-      border-radius: 8px;
       padding: 11px;
-      background: white;
-      color: var(--navy);
+      border: 1px solid #426073;
+      border-radius: 8px;
+      background: #10283a;
+      color: var(--text);
     }
 
     input:focus,
     select:focus {
-      outline: 2px solid #b8d8fa;
+      outline: 2px solid var(--blue);
       border-color: var(--blue);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      filter: invert(1);
     }
 
     .modal-actions {
@@ -327,12 +367,16 @@
     }
 
     .secondary-button {
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--navy);
-      border-radius: 8px;
       padding: 11px 15px;
+      border: 1px solid #426073;
+      border-radius: 8px;
+      background: #183144;
+      color: var(--text);
       cursor: pointer;
+    }
+
+    .secondary-button:hover {
+      background: #24465c;
     }
 
     @media (max-width: 850px) {
@@ -350,8 +394,9 @@
 
       .hotel-list {
         display: flex;
-        overflow-x: auto;
+        flex-direction: row;
         gap: 5px;
+        overflow-x: auto;
       }
 
       .hotel-button {
@@ -385,6 +430,69 @@
 </head>
 
 <body>
+  <!-- خلفية مرسومة داخل الصفحة: فندق وأفق البحر -->
+  <svg class="scenery" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#19364a" />
+        <stop offset="100%" stop-color="#386276" />
+      </linearGradient>
+      <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#276176" />
+        <stop offset="100%" stop-color="#092c3d" />
+      </linearGradient>
+      <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#061725" stop-opacity=".23" />
+        <stop offset="100%" stop-color="#061725" stop-opacity=".78" />
+      </linearGradient>
+    </defs>
+
+    <rect width="1440" height="900" fill="url(#sky)" />
+    <circle cx="1120" cy="170" r="72" fill="#f0d6a2" opacity=".45" />
+    <rect y="430" width="1440" height="470" fill="url(#sea)" />
+
+    <!-- خطوط أفق البحر -->
+    <path d="M0 490 Q190 477 390 490 T780 490 T1170 490 T1560 490"
+          fill="none" stroke="#a4c5c7" stroke-opacity=".22" stroke-width="3" />
+    <path d="M0 560 Q220 545 440 560 T880 560 T1320 560 T1760 560"
+          fill="none" stroke="#b7d5d5" stroke-opacity=".15" stroke-width="3" />
+    <path d="M0 650 Q180 638 360 650 T720 650 T1080 650 T1440 650"
+          fill="none" stroke="#b7d5d5" stroke-opacity=".12" stroke-width="3" />
+
+    <!-- صورة ظلية لفندق على جانب البحر -->
+    <g fill="#10283a" opacity=".82">
+      <rect x="95" y="280" width="295" height="220" rx="4" />
+      <rect x="125" y="245" width="235" height="38" rx="3" />
+      <rect x="170" y="205" width="145" height="42" rx="3" />
+      <rect x="215" y="170" width="55" height="35" rx="3" />
+      <rect x="80" y="495" width="325" height="22" />
+    </g>
+
+    <!-- نوافذ الفندق -->
+    <g fill="#d8c994" opacity=".48">
+      <rect x="120" y="310" width="28" height="30" rx="3" />
+      <rect x="172" y="310" width="28" height="30" rx="3" />
+      <rect x="224" y="310" width="28" height="30" rx="3" />
+      <rect x="276" y="310" width="28" height="30" rx="3" />
+      <rect x="328" y="310" width="28" height="30" rx="3" />
+
+      <rect x="120" y="365" width="28" height="30" rx="3" />
+      <rect x="172" y="365" width="28" height="30" rx="3" />
+      <rect x="224" y="365" width="28" height="30" rx="3" />
+      <rect x="276" y="365" width="28" height="30" rx="3" />
+      <rect x="328" y="365" width="28" height="30" rx="3" />
+
+      <rect x="120" y="420" width="28" height="30" rx="3" />
+      <rect x="172" y="420" width="28" height="30" rx="3" />
+      <rect x="224" y="420" width="28" height="30" rx="3" />
+      <rect x="276" y="420" width="28" height="30" rx="3" />
+      <rect x="328" y="420" width="28" height="30" rx="3" />
+    </g>
+
+    <!-- تعتيم فوق الرسمة حتى تظل الكتابة واضحة -->
+    <rect width="1440" height="900" fill="url(#shade)" />
+  </svg>
+
   <div class="layout">
     <aside>
       <div class="brand">
@@ -513,7 +621,8 @@
       "Jaz Viva Casa Maza",
       "Jaz Viva Villagio",
       "Jaz Viva Blu",
-      "Jaz tamerina & Sakhra Hotel And Spa"
+      "Jaz Tamerina",
+      "Sakhra Hotel And Spa"
     ];
 
     const statusLabels = {
@@ -607,7 +716,6 @@
         total ? Math.round((countByStatus(status) / total) * 100) : 0;
 
       document.getElementById("totalKpi").textContent = total;
-
       document.getElementById("doneKpi").textContent =
         percentage("Done") + "%";
       document.getElementById("ongoingKpi").textContent =
