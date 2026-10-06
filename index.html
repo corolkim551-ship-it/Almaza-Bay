@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a31">
+<title>Winter Project | Enterprise Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-photo"></div><div class="login-shade"></div>
+  <div class="login-brand"><span>⌁</span><div><b>WINTER<br>PROJECT</b><small>Projects • Maintenance • Manufacturing</small></div></div>
+  <div class="login-card">
+    <div class="login-kicker">PRIVATE OPERATIONS PORTAL</div>
+    <h1>Welcome back</h1><p>Sign in to manage your hospitality operations portfolio.</p>
+    <form id="loginForm">
+      <label>Username<input id="loginUser" autocomplete="username" placeholder="Enter username" required></label>
+      <label>Password<div class="password"><input id="loginPass" type="password" autocomplete="current-password" placeholder="Enter password" required><button type="button" id="showPass">◉</button></div></label>
+      <button class="gold-btn" type="submit">Sign in <span>→</span></button>
+      <div id="loginError" class="login-error"></div>
+    </form>
+    <div class="demo-note"><b>Demo access</b><span>Admin: admin / admin00</span><span>Operator: operator / operator00</span></div>
+  </div>
+  <div class="login-footer">EXCELLENCE IN HOSPITALITY OPERATIONS <i></i></div>
+</div>
+
+<div id="systemScreen" class="system-screen hidden">
+  <div class="system-bg"></div>
+  <header class="system-top"><div class="mini-brand"><span>⌁</span>WINTER PROJECT</div><div class="user-pill"><span id="systemUser"></span><button onclick="logout()">Sign out</button></div></header>
+  <div class="system-wrap">
+    <div class="system-kicker">ENTERPRISE OPERATIONS SUITE</div><h1>Select your system</h1><p>Each business system is isolated with its own projects, progress and reporting.</p>
+    <div id="systemCards" class="system-cards"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">⌁</div><div><div class="brand-name">WINTER<br>PROJECT</div><div class="brand-sub">Enterprise Operations</div></div></div>
+    <div class="current-system"><small>ACTIVE SYSTEM</small><b id="sideSystem"></b><button onclick="selectSystemScreen()">Switch system ↗</button></div>
+    <nav>
+      <button class="nav active" data-page="dashboard"><span>⌂</span>Dashboard</button>
+      <button class="nav" data-page="projects"><span>▣</span>Projects <b id="projectCount">0</b></button>
+      <button class="nav" data-page="reports"><span>▥</span>Reports</button>
+      <button class="nav" data-page="settings"><span>⚙</span>Settings</button>
+    </nav>
+    <div class="side-bottom"><small>OPERATIONS CONTROL</small><strong>Precision • Performance • Progress</strong><i></i></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="global-search">⌕<input id="globalSearch" placeholder="Search projects, hotels, departments..."></div>
+      <div class="top-right"><button class="bell">♧<em></em></button><div class="line"></div><div class="user"><span id="avatar">AD</span><div><strong id="topUser">Admin</strong><small id="topRole"></small></div></div><button id="theme" class="theme">☼</button></div>
+    </header>
+    <div id="page"></div>
+  </main>
+</div>
+
+<div id="modal" class="backdrop"><div class="modal"><button class="close" onclick="closeModal()">×</button><small class="gold-label" id="modalKicker">PROJECT</small><h2 id="modalTitle">Create Project</h2><p id="modalDesc">Add a project to the active system.</p>
+<form id="projectForm">
+<label>Project name<input id="pName" required></label>
+<div class="two"><label>Hotel<select id="pHotel"></select></label><label>Department<select id="pDept"></select></label></div>
+<div class="two"><label>Status<select id="pStatus"><option>Completed</option><option>On Going</option><option>Not Started</option></select></label><label>Due date<input id="pDate" type="date" required></label></div>
+<div class="two"><label>Priority<select id="pPriority"><option>High</option><option selected>Medium</option><option>Low</option></select></label><label>Progress %<input id="pProgress" type="number" min="0" max="100" value="0"></label></div>
+<button class="gold-btn" id="saveProject" type="submit">Save Project <span>→</span></button>
+</form></div></div>
+
+<script src="app.js"></script>
+</body>
+</html>
