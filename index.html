@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071a2d">
+<title>Winter Project | Operations Command</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<section id="loginView" class="view login-view">
+  <div class="login-image"></div>
+  <div class="login-overlay"></div>
+  <div class="login-top">
+    <div class="brand-lockup">
+      <div class="brand-symbol">W</div>
+      <div><div class="brand-title">WINTER PROJECT</div><div class="brand-subtitle">PROJECTS · MAINTENANCE · MANUFACTURING</div></div>
+    </div>
+    <div class="secure-label"><span></span> SECURE OPERATIONS PORTAL</div>
+  </div>
+
+  <div class="login-panel">
+    <div class="eyebrow">WELCOME BACK</div>
+    <h1>Command your<br><em>operations.</em></h1>
+    <p class="login-copy">A single executive workspace for projects, property performance and operational delivery across the portfolio.</p>
+    <form id="loginForm" class="login-form">
+      <label>USERNAME<input id="loginUser" placeholder="Enter username" autocomplete="username" required></label>
+      <label>PASSWORD
+        <div class="pass-wrap"><input id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password" required><button type="button" id="togglePass">SHOW</button></div>
+      </label>
+      <button class="primary-btn wide" type="submit">Enter workspace <span>↗</span></button>
+      <div id="loginError" class="error"></div>
+    </form>
+    <div class="login-access">
+      <div><b>ADMIN</b><span>Full project control</span></div>
+      <div><b>OPERATOR</b><span>Add projects only</span></div>
+    </div>
+  </div>
+  <div class="login-foot">EXCELLENCE IN HOSPITALITY OPERATIONS <i></i> ALMAZA BAY</div>
+</section>
+
+<section id="systemView" class="view system-view hidden">
+  <header class="system-header">
+    <div class="brand-lockup">
+      <div class="brand-symbol">W</div>
+      <div><div class="brand-title">WINTER PROJECT</div><div class="brand-subtitle">OPERATIONS COMMAND</div></div>
+    </div>
+    <div class="session-chip"><span id="sessionName"></span><button onclick="logout()">Sign out</button></div>
+  </header>
+  <main class="system-main">
+    <div class="eyebrow">ENTERPRISE OPERATIONS</div>
+    <h1>Choose a workspace</h1>
+    <p class="system-intro">Three independent operating systems. Separate projects, separate progress, one executive view.</p>
+    <div id="systemCards" class="system-cards"></div>
+  </main>
+</section>
+
+<section id="appView" class="app-shell hidden">
+  <aside class="sidebar">
+    <div class="side-brand">
+      <div class="brand-symbol">W</div>
+      <div><div class="brand-title">WINTER</div><div class="brand-subtitle">OPERATIONS</div></div>
+    </div>
+    <div class="active-system">
+      <span>ACTIVE WORKSPACE</span>
+      <strong id="activeSystem"></strong>
+      <button onclick="openSystems()">Switch workspace <b>↗</b></button>
+    </div>
+    <nav class="main-nav">
+      <button class="nav-item active" data-page="dashboard"><span>01</span>Executive Dashboard</button>
+      <button class="nav-item" data-page="projects"><span>02</span>Projects <b id="navCount">0</b></button>
+      <button class="nav-item" data-page="reports"><span>03</span>Reports & Analytics</button>
+      <button class="nav-item" data-page="settings"><span>04</span>Settings</button>
+    </nav>
+    <div class="side-caption"><span>PROPERTY OPERATIONS</span><b>Precision in every detail.</b><i></i></div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div class="topbar-title"><span id="topSystem"></span><b id="topPage">Executive Dashboard</b></div>
+      <div class="top-actions">
+        <div class="search"><span>⌕</span><input id="globalSearch" placeholder="Search projects, hotels, departments"></div>
+        <button class="icon-btn" title="Notifications">♧<i></i></button>
+        <div class="user-menu"><span id="avatar">AD</span><div><b id="topUser"></b><small id="topRole"></small></div></div>
+      </div>
+    </header>
+    <div id="page"></div>
+  </main>
+</section>
+
+<div id="modal" class="modal-backdrop">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="eyebrow" id="modalEyebrow">PROJECT CONTROL</div>
+    <h2 id="modalTitle">Add project</h2>
+    <p id="modalText">Create a new project in the active workspace.</p>
+    <form id="projectForm" class="project-form">
+      <label>PROJECT NAME<input id="pName" required placeholder="e.g. Guest Room Renovation"></label>
+      <div class="form-grid">
+        <label>HOTEL<select id="pHotel"></select></label>
+        <label>DEPARTMENT<select id="pDept"></select></label>
+        <label>STATUS<select id="pStatus"><option>Completed</option><option>On Going</option><option>Not Started</option></select></label>
+        <label>DUE DATE<input id="pDate" type="date" required></label>
+        <label>PRIORITY<select id="pPriority"><option>High</option><option selected>Medium</option><option>Low</option></select></label>
+        <label>PROGRESS %<input id="pProgress" type="number" min="0" max="100" value="0"></label>
+      </div>
+      <button class="primary-btn wide" type="submit">Save project <span>↗</span></button>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
